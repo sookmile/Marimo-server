@@ -39,8 +39,8 @@ public class TestController {
      */
     public static void detectLocalizedObjectsGcs() throws IOException {
 
-        authExplicit("src/main/resources/static/top-glass-322515-5fcccf54600d.json");
-        String gcsPath="https://cdn.mkhealth.co.kr/news/photo/202004/img_MKH200424005_0.jpg";
+//        authExplicit("src/main/resources/static/top-glass-322515-5fcccf54600d.json");
+        String gcsPath="gs://marimo_bucket/test.png";
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
         ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(gcsPath).build();
@@ -63,6 +63,7 @@ public class TestController {
             client.close();
             // Display the results
             for (AnnotateImageResponse res : responses) {
+                System.out.println(res);
                 for (LocalizedObjectAnnotation entity : res.getLocalizedObjectAnnotationsList()) {
                     System.out.format("Object name: %s%n", entity.getName());
                     System.out.format("Confidence: %s%n", entity.getScore());
@@ -78,7 +79,7 @@ public class TestController {
 
 
 
-    @ConfigurationProperties("spring.cloud.gcp.vision")
+/*    @ConfigurationProperties("spring.cloud.gcp.vision")
     static void authExplicit(String jsonPath) throws IOException {
         // You can specify a credential file by providing a path to GoogleCredentials.
         // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
@@ -91,5 +92,5 @@ public class TestController {
         for (Bucket bucket : buckets.iterateAll()) {
             System.out.println(bucket.toString());
         }
-    }
+    }*/
 }
