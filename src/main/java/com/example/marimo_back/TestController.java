@@ -1,6 +1,7 @@
 package com.example.marimo_back;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.translate.*;
 import com.google.cloud.vision.v1.*;
 import com.google.cloud.vision.v1.Image;
 import com.google.common.collect.Lists;
@@ -63,7 +64,6 @@ public class TestController {
             client.close();
             // Display the results
             for (AnnotateImageResponse res : responses) {
-                System.out.println(res);
                 for (LocalizedObjectAnnotation entity : res.getLocalizedObjectAnnotationsList()) {
                     System.out.format("Object name: %s%n", entity.getName());
                     System.out.format("Confidence: %s%n", entity.getScore());
@@ -72,6 +72,11 @@ public class TestController {
                             .getBoundingPoly()
                             .getNormalizedVerticesList()
                             .forEach(vertex -> System.out.format("- (%s, %s)%n", vertex.getX(), vertex.getY()));
+
+//                    System.out.println(entity.getName());
+                    Translate translate = TranslateOptions.getDefaultInstance().getService();
+                    Translation translation = translate.translate(entity.getName(), Translate.TranslateOption.targetLanguage("ko"));
+                    System.out.println(translation.getTranslatedText());
                 }
             }
         }
