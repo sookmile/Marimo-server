@@ -84,7 +84,7 @@ public class TestController {
         }
     }
 
-    @PostMapping(value = "/images")
+    @PostMapping("/images")
     public String uploadImage(@RequestPart(value = "images", required = false) MultipartFile file) throws IOException {
         System.out.println("이미지업로드");
         // The ID of your GCP project
@@ -130,6 +130,12 @@ public class TestController {
         System.out.println(
                 "File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
         return "upload Image";
+    }
+
+    @GetMapping("/test2")
+    public String test() {
+        System.out.println("성공");
+        return "test";
     }
 
 
