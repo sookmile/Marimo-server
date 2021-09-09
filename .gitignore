@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 top-glass-322515-5fcccf54600d.json
+src/main/resources/application.properties
 
 ### STS ###
 .apt_generated
