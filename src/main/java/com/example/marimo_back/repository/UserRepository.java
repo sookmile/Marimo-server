@@ -17,6 +17,10 @@ public class UserRepository {
         em.persist(user);
     }
 
+    public Users findById(Long userId) {
+        return em.find(Users.class, userId);
+    }
+
     public List<Users> findUser(String email) {
         return em.createQuery("select u from users u where u.email = :email", Users.class)
                 .setParameter("email", email)
