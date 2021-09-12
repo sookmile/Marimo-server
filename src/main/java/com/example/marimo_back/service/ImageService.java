@@ -46,6 +46,7 @@ public class ImageService {
                     file.getBytes(), // the file
                     BlobTargetOption.predefinedAcl(PredefinedAcl.PUBLIC_READ) // Set file permission
             );
+//            System.out.println(blobInfo.getMediaLink());
             return folderName + "/" + objectName;
         } catch (IllegalStateException e) {
             throw new RuntimeException(e);

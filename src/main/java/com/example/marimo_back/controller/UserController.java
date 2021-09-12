@@ -1,5 +1,6 @@
 package com.example.marimo_back.controller;
 
+import com.example.marimo_back.domain.UserDto;
 import com.example.marimo_back.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("marimo/login")
-    public String loginUser(@RequestBody Map<Object, String> userinfo) {
-        userService.saveUser(userinfo);
-        return "success";
+    public UserDto loginUser(@RequestBody Map<Object, String> userinfo) {
+        return userService.saveUser(userinfo);
     }
 
     @ResponseBody
