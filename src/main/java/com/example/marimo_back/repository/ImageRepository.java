@@ -24,4 +24,9 @@ public class ImageRepository {
                 .getResultList();
     }
 
+    public List<Images> findByUserId(Users user) {
+        return em.createQuery("select p from USER_PHOTOS p where p.user = :user", Images.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
 }

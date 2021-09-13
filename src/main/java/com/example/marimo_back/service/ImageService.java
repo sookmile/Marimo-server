@@ -1,5 +1,6 @@
 package com.example.marimo_back.service;
 
+import com.example.marimo_back.domain.ImageCollectionDto;
 import com.example.marimo_back.domain.ImageDto;
 import com.example.marimo_back.domain.Images;
 import com.example.marimo_back.domain.Users;
@@ -127,5 +128,18 @@ public class ImageService {
 
         Images image = Images.builder().user(user).link(link).word(word).date(LocalDateTime.now()).build();
         imageRepository.save(image);
+    }
+
+    public List<ImageCollectionDto> showImages(Map<Object, String> imageInfo) {
+        Long userId = Long.parseLong(imageInfo.get("userId"));
+        Users user = userRepository.findById(userId);
+
+        List<Images> imageList = imageRepository.findByUserId(user);
+        ArrayList<ImageCollectionDto> resultList = new ArrayList<>();
+        for (Images img : imageList) {
+            ImageCollectionDto dto = ImageCollectionDto.builder().link(img.getLink()).date(img.getDate()).success(img.getSuccess()).word(img.getWord()).build();
+            resultList.add(dto);
+        }
+        return resultList;
     }
 }
