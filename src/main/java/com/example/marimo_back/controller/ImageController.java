@@ -1,5 +1,6 @@
 package com.example.marimo_back.controller;
 
+import com.example.marimo_back.domain.ImageDto;
 import com.example.marimo_back.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @RestController
@@ -25,11 +27,17 @@ public class ImageController {
      * @throws IOException on Input/Output errors.
      */
     @PostMapping("/image/name")
-    public String findImageName(@RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
-        String filepath = imageService.uploadImage(file);
-        return imageService.detectLocalizedObjectsGcs(filepath);
+    public ImageDto findImageName(@RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
+        ImageDto imageDto = imageService.uploadImage(file);
+        return imageService.detectLocalizedObjectsGcs(imageDto);
     }
 
+    @PostMapping("/image/save")
+    @ResponseBody
+    public String saveImage(@RequestBody Map<Object, String> imageInfo) {
+        imageService.saveUserImage(imageInfo);
+        return "success";
+    }
 
 /*    @ConfigurationProperties("spring.cloud.gcp.vision")
     static void authExplicit(String jsonPath) throws IOException {
