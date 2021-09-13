@@ -1,6 +1,6 @@
 package com.example.marimo_back.service;
 
-import com.example.marimo_back.domain.UserDto;
+import com.example.marimo_back.Dto.UserDto;
 import com.example.marimo_back.domain.Users;
 import com.example.marimo_back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

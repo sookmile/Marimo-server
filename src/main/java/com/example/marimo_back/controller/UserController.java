@@ -1,6 +1,6 @@
 package com.example.marimo_back.controller;
 
-import com.example.marimo_back.domain.UserDto;
+import com.example.marimo_back.Dto.UserDto;
 import com.example.marimo_back.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

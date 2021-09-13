@@ -1,4 +1,4 @@
-package com.example.marimo_back.domain;
+package com.example.marimo_back.Dto;
 
 import lombok.*;
 

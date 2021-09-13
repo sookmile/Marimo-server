@@ -1,7 +1,7 @@
 package com.example.marimo_back.service;
 
-import com.example.marimo_back.domain.ImageCollectionDto;
-import com.example.marimo_back.domain.ImageDto;
+import com.example.marimo_back.Dto.ImageCollectionDto;
+import com.example.marimo_back.Dto.ImageDto;
 import com.example.marimo_back.domain.Images;
 import com.example.marimo_back.domain.Users;
 import com.example.marimo_back.repository.ImageRepository;
