@@ -1,5 +1,11 @@
 package com.example.marimo_back.service;
 
+import com.example.marimo_back.domain.ImageCollectionDto;
+import com.example.marimo_back.domain.ImageDto;
+import com.example.marimo_back.domain.Images;
+import com.example.marimo_back.domain.Users;
+import com.example.marimo_back.repository.ImageRepository;
+import com.example.marimo_back.repository.UserRepository;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
@@ -19,16 +25,21 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ImageService {
 
-    public String uploadImage(MultipartFile file) throws IOException {
+    private final ImageRepository imageRepository;
+    private final UserRepository userRepository;
+
+    public ImageDto uploadImage(MultipartFile file) throws IOException {
         // gcp cloud storage 버킷에 파일 업로드
         try {
             String keyFileName = "static/top-glass-322515-5fcccf54600d.json";
@@ -47,15 +58,16 @@ public class ImageService {
                     BlobTargetOption.predefinedAcl(PredefinedAcl.PUBLIC_READ) // Set file permission
             );
 //            System.out.println(blobInfo.getMediaLink());
-            return folderName + "/" + objectName;
+            return ImageDto.builder().gsURI(folderName + "/" + objectName).link(blobInfo.getMediaLink()).build();
+//            return folderName + "/" + objectName;
         } catch (IllegalStateException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String detectLocalizedObjectsGcs(String filepath) throws IOException {
+    public ImageDto detectLocalizedObjectsGcs(ImageDto imageDto) throws IOException {
         // 이미지 인식
-        String gcsPath = "gs://marimo_bucket/" + filepath;
+        String gcsPath = "gs://marimo_bucket/" + imageDto.getGsURI();
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
         ImageSource imgSource = ImageSource.newBuilder().setGcsImageUri(gcsPath).build();
@@ -68,7 +80,7 @@ public class ImageService {
                         .build();
         requests.add(request);
 
-        String result = "";
+        String word = "";
 
         // Initialize client that will be used to send requests. This client only needs to be created
         // once, and can be reused for multiple requests. After completing all of your requests, call
@@ -93,12 +105,41 @@ public class ImageService {
                     // 영어 -> 한글 번역
                     Translate translate = TranslateOptions.getDefaultInstance().getService();
                     Translation translation = translate.translate(entity.getName(), Translate.TranslateOption.targetLanguage("ko"));
-                    result = translation.getTranslatedText();
+                    word = translation.getTranslatedText();
+                    imageDto.setWord(word);
                     System.out.println(translation.getTranslatedText());
                 }
             }
         }
 
-        return result;
+        return imageDto;
+    }
+
+    public void saveUserImage(Map<Object, String> imageInfo) {
+        Long userId = Long.parseLong(imageInfo.get("userId"));
+        String link = imageInfo.get("link");
+        String word = imageInfo.get("word");
+
+        Users user = userRepository.findById(userId);
+
+        List<Images> findImage = imageRepository.findImage(link);
+        if (findImage.size() > 0)
+            return;
+
+        Images image = Images.builder().user(user).link(link).word(word).date(LocalDateTime.now()).build();
+        imageRepository.save(image);
+    }
+
+    public List<ImageCollectionDto> showImages(Map<Object, String> imageInfo) {
+        Long userId = Long.parseLong(imageInfo.get("userId"));
+        Users user = userRepository.findById(userId);
+
+        List<Images> imageList = imageRepository.findByUserId(user);
+        ArrayList<ImageCollectionDto> resultList = new ArrayList<>();
+        for (Images img : imageList) {
+            ImageCollectionDto dto = ImageCollectionDto.builder().link(img.getLink()).date(img.getDate()).success(img.getSuccess()).word(img.getWord()).build();
+            resultList.add(dto);
+        }
+        return resultList;
     }
 }
