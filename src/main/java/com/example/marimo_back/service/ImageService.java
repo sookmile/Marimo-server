@@ -137,7 +137,7 @@ public class ImageService {
         List<Images> imageList = imageRepository.findByUserId(user);
         ArrayList<ImageCollectionDto> resultList = new ArrayList<>();
         for (Images img : imageList) {
-            ImageCollectionDto dto = ImageCollectionDto.builder().link(img.getLink()).date(img.getDate()).success(img.getSuccess()).word(img.getWord()).build();
+            ImageCollectionDto dto = ImageCollectionDto.builder().id(img.getId()).link(img.getLink()).date(img.getDate()).success(img.getSuccess()).word(img.getWord()).build();
             resultList.add(dto);
         }
         return resultList;

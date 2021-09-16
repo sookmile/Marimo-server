@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 public class ImageCollectionDto {
 
+    private Long id;
+
     private String link;
 
     private LocalDateTime date;
