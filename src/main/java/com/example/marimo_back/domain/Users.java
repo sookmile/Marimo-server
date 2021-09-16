@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "users")
+@Entity
+@Table(name = "USERS")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

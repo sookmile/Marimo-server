@@ -22,7 +22,7 @@ public class UserRepository {
     }
 
     public List<Users> findUser(String email) {
-        return em.createQuery("select u from users u where u.email = :email", Users.class)
+        return em.createQuery("select u from Users u where u.email = :email", Users.class)
                 .setParameter("email", email)
                 .getResultList();
     }

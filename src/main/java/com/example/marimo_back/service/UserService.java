@@ -30,17 +30,14 @@ public class UserService {
             } catch (IndexOutOfBoundsException e) {
                 return null;
             }
-            return UserDto.builder().id(user.getId()).email(user.getEmail())
-                    .nickname(user.getNickname()).character(user.getCharacter()).playnow(user.getPlaynow())
-                    .playnum(user.getPlaynum()).premium(user.getPremium()).achieve(user.getAchieve()).build();
+            return makeDto(user);
         }
         // 새로 가입하는 유저라면 정보 저장하기
         Users newUser = Users.builder().email(email).username(username).playnum(0).premium(false).build();
         userRepository.save(newUser);
-        return UserDto.builder().id(newUser.getId()).email(newUser.getEmail())
-                .nickname(newUser.getNickname()).character(newUser.getCharacter()).playnow(newUser.getPlaynow())
-                .playnum(newUser.getPlaynum()).premium(newUser.getPremium()).achieve(newUser.getAchieve()).build();
+        return makeDto(newUser);
     }
+
 
     public void saveName(Map<Object, String> userinfo) {
         Long id = Long.parseLong(userinfo.get("id"));
@@ -49,5 +46,12 @@ public class UserService {
         Users user = userRepository.findById(id);
 
         user.setNickname(nickname);
+    }
+
+    //==Dto 생성==//
+    private UserDto makeDto(Users user) {
+        return UserDto.builder().id(user.getId()).email(user.getEmail())
+                .nickname(user.getNickname()).character(user.getCharacter()).playnow(user.getPlaynow())
+                .playnum(user.getPlaynum()).premium(user.getPremium()).achieve(user.getAchieve()).build();
     }
 }

@@ -19,13 +19,13 @@ public class ImageRepository {
     }
 
     public List<Images> findImage(String link) {
-        return em.createQuery("select p from USER_PHOTOS p where p.link = :link", Images.class)
+        return em.createQuery("select p from Images p where p.link = :link", Images.class)
                 .setParameter("link", link)
                 .getResultList();
     }
 
     public List<Images> findByUserId(Users user) {
-        return em.createQuery("select p from USER_PHOTOS p where p.user = :user", Images.class)
+        return em.createQuery("select p from Images p where p.user = :user", Images.class)
                 .setParameter("user", user)
                 .getResultList();
     }

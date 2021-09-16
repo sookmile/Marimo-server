@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "USER_PHOTOS")
+@Entity
+@Table(name = "USER_PHOTOS")
 public class Images {
 
     @Id
