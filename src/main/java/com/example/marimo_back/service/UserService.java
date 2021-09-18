@@ -48,10 +48,25 @@ public class UserService {
         user.setNickname(nickname);
     }
 
+    public void saveCharacter(Map<Object, String> userinfo) {
+        Long userId = Long.parseLong(userinfo.get("userId"));
+        Integer character;
+        try {
+            character = Integer.parseInt(userinfo.get("character"));
+        } catch (NumberFormatException e) {
+            character = null;
+        }
+
+        Users user = userRepository.findById(userId);
+
+        user.setCharacter(character);
+    }
+
     //==Dto 생성==//
     private UserDto makeDto(Users user) {
         return UserDto.builder().id(user.getId()).email(user.getEmail())
                 .nickname(user.getNickname()).character(user.getCharacter()).playnow(user.getPlaynow())
                 .playnum(user.getPlaynum()).premium(user.getPremium()).achieve(user.getAchieve()).build();
     }
+
 }
