@@ -49,10 +49,15 @@ public class UserService {
     }
 
     public void saveCharacter(Map<Object, String> userinfo) {
-        Long id = Long.parseLong(userinfo.get("userId"));
-        Integer character = Integer.parseInt(userinfo.get("character"));
+        Long userId = Long.parseLong(userinfo.get("userId"));
+        Integer character;
+        try {
+            character = Integer.parseInt(userinfo.get("character"));
+        } catch (NumberFormatException e) {
+            character = null;
+        }
 
-        Users user = userRepository.findById(id);
+        Users user = userRepository.findById(userId);
 
         user.setCharacter(character);
     }

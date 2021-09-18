@@ -47,13 +47,7 @@ public class UserServiceTest {
     @Test
     public void 음성인식이름저장() throws Exception {
         //given
-        Map<Object, String> userInfo = new HashMap<>();
-        String email = "1234@naver.com";
-        userInfo.put("email", email);
-        userInfo.put("username", "김유진");
-        userService.saveUser(userInfo);
-        List<Users> userList = userRepository.findUser(email);
-        Users user = userList.get(0);
+        Users user = saveUser();
         Long id = user.getId();
 
         Map<Object, String> userInfo2 = new HashMap<>();
@@ -66,6 +60,35 @@ public class UserServiceTest {
         //then
         assertEquals(user.getNickname(), "유진");
 
+    }
+
+    @Test
+    public void 유저캐릭터지정() throws Exception {
+        //given
+        Users user = saveUser();
+        Long id = user.getId();
+
+        Map<Object, String> userInfo2 = new HashMap<>();
+        userInfo2.put("userId", id.toString());
+        userInfo2.put("character", "2");
+
+        //when
+        userService.saveCharacter(userInfo2);
+
+        //then
+        int character_id = user.getCharacter();
+        assertEquals(character_id, 2);
+
+    }
+
+    private Users saveUser() {
+        Map<Object, String> userInfo = new HashMap<>();
+        String email = "1234@naver.com";
+        userInfo.put("email", email);
+        userInfo.put("username", "김유진");
+        userService.saveUser(userInfo);
+        List<Users> userList = userRepository.findUser(email);
+        return userList.get(0);
     }
 
 }
