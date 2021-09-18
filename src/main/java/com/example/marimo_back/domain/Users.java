@@ -26,8 +26,8 @@ public class Users {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(name = "CHARAC", length = 20)
-    private String character;
+    @Column(name = "CHARAC")
+    private Integer character;
 
     @Column
     private Boolean premium;

@@ -15,7 +15,7 @@ public class UserDto {
 
     private String email;
 
-    private String character;
+    private Integer character;
 
     private Boolean premium;
 

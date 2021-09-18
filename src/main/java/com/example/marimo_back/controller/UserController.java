@@ -26,4 +26,11 @@ public class UserController {
         userService.saveName(userinfo);
         return "success";
     }
+
+    @ResponseBody
+    @PostMapping("marimo/character")
+    public String saveCharacter(@RequestBody Map<Object, String> userinfo) {
+        userService.saveCharacter(userinfo);
+        return "success";
+    }
 }
