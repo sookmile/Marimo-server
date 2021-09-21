@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "USER_PHOTOS")
-public class Images {
+@Table(name = "GAME")
+public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PHOTO_ID")
+    @Column(name = "GAME_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,14 +23,11 @@ public class Images {
     private Users user;
 
     @Column(nullable = false)
-    private String link;
+    private Integer category;
 
-    @Column(name = "PHOTO_DATE", nullable = false)
-    private LocalDateTime date;
+    @Column(nullable = false)
+    private Integer score;
 
-    @Column
-    private Boolean success;
-
-    @Column(length = 20)
-    private String word;
+    @Column(nullable = false)
+    private LocalDateTime playtime;
 }
