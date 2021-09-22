@@ -7,7 +7,6 @@ import com.example.marimo_back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,8 +31,8 @@ public class GameService {
         for (String word : dto.getSuccess()) {
             List<SuccessWord> successWordList = gameRepository.findSuccessWord(word, user);
             if (successWordList.size() == 0) {
-                SuccessWord sucessWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
-                gameRepository.saveSuccessWord(sucessWord);
+                SuccessWord successWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
+                gameRepository.saveSuccessWord(successWord);
             } else {
                 SuccessWord existWord = successWordList.get(0);
                 existWord.increaseNum(existWord.getNum());
