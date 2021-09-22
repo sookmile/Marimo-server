@@ -30,4 +30,9 @@ public class SuccessWord {
     @Column(name = "PLAY_CATEGORY", nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    public void increaseNum(Integer num) {
+        num += 1;
+        this.num = num;
+    }
 }
