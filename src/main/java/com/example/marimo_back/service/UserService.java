@@ -62,6 +62,11 @@ public class UserService {
         user.setCharacter(character);
     }
 
+    public String getNickName(Long userId) {
+        Users user = userRepository.findById(userId);
+        return user.getNickname();
+    }
+
     //==Dto 생성==//
     private UserDto makeDto(Users user) {
         return UserDto.builder().id(user.getId()).email(user.getEmail())

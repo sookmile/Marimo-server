@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -47,15 +46,16 @@ public class UserServiceTest {
     @Test
     public void 음성인식이름저장() throws Exception {
         //given
-        Users user = saveUser();
+        Users user = Users.builder().username("yujin").email("1234@naver.com").build();
+        userRepository.save(user);
         Long id = user.getId();
 
-        Map<Object, String> userInfo2 = new HashMap<>();
-        userInfo2.put("id", id.toString());
-        userInfo2.put("nickname", "유진");
+        Map<Object, String> userInfo = new HashMap<>();
+        userInfo.put("id", id.toString());
+        userInfo.put("nickname", "유진");
 
         //when
-        userService.saveName(userInfo2);
+        userService.saveName(userInfo);
 
         //then
         assertEquals(user.getNickname(), "유진");
@@ -65,15 +65,16 @@ public class UserServiceTest {
     @Test
     public void 유저캐릭터지정() throws Exception {
         //given
-        Users user = saveUser();
+        Users user = Users.builder().username("yujin").email("1234@naver.com").build();
+        userRepository.save(user);
         Long id = user.getId();
 
-        Map<Object, String> userInfo2 = new HashMap<>();
-        userInfo2.put("userId", id.toString());
-        userInfo2.put("character", "2");
+        Map<Object, String> userInfo = new HashMap<>();
+        userInfo.put("userId", id.toString());
+        userInfo.put("character", "2");
 
         //when
-        userService.saveCharacter(userInfo2);
+        userService.saveCharacter(userInfo);
 
         //then
         int character_id = user.getCharacter();
@@ -81,14 +82,18 @@ public class UserServiceTest {
 
     }
 
-    private Users saveUser() {
-        Map<Object, String> userInfo = new HashMap<>();
-        String email = "1234@naver.com";
-        userInfo.put("email", email);
-        userInfo.put("username", "김유진");
-        userService.saveUser(userInfo);
-        List<Users> userList = userRepository.findUser(email);
-        return userList.get(0);
+    @Test
+    public void 닉네임가져오기() throws Exception {
+        //given
+        Users user = Users.builder().username("yujin").nickname("닉네임").email("1234@naver.com").build();
+        userRepository.save(user);
+
+        //when
+        String nickName = userService.getNickName(user.getId());
+
+        //then
+        assertEquals(nickName, "닉네임");
+
     }
 
 }

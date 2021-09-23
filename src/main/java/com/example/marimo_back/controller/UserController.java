@@ -33,4 +33,11 @@ public class UserController {
         userService.saveCharacter(userinfo);
         return "success";
     }
+
+    @ResponseBody
+    @PostMapping("marimo/getNickName")
+    public String getNickName(@RequestBody Map<String, Long> userinfo) {
+        Long userId = userinfo.get("userId");
+        return userService.getNickName(userId);
+    }
 }
