@@ -36,4 +36,17 @@ public class RecordRepository {
         }
         return sum;
     }
+
+    public List<SuccessWord> findMostSuccessWord(Users user) {
+        // select w.SUCCESS_WORD FROM SUCCESS_WORD w WHERE w.SUCCESS_NUM = (SELECT MAX(s.SUCCESS_NUM) FROM SUCCESS_WORD s WHERE USER_ID = ?) and USER_ID = ?;
+        return em.createQuery("select w from SuccessWord w where w.num = (select max(subW.num) from SuccessWord subW where subW.user = :user)  and w.user = :user", SuccessWord.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    public List<FailWord> findMostFailWord(Users user) {
+        return em.createQuery("select w from FailWord w where w.num = (select max(subW.num) from FailWord subW where subW.user = :user) and w.user = :user", FailWord.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
 }
