@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class UserService {
             return makeDto(user);
         }
         // 새로 가입하는 유저라면 정보 저장하기
-        Users newUser = Users.builder().email(email).username(username).playnum(0).premium(false).build();
+        Users newUser = Users.builder().email(email).username(username).playnum(0).premium(false).regidate(LocalDate.now()).build();
         userRepository.save(newUser);
         return makeDto(newUser);
     }
@@ -71,7 +72,7 @@ public class UserService {
     private UserDto makeDto(Users user) {
         return UserDto.builder().id(user.getId()).email(user.getEmail())
                 .nickname(user.getNickname()).character(user.getCharacter()).playnow(user.getPlaynow())
-                .playnum(user.getPlaynum()).premium(user.getPremium()).achieve(user.getAchieve()).build();
+                .playnum(user.getPlaynum()).premium(user.getPremium()).achieve(user.getAchieve()).regidate(user.getRegidate()).build();
     }
 
 }
