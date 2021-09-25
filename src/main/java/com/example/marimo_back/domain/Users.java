@@ -3,6 +3,7 @@ package com.example.marimo_back.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -40,4 +41,7 @@ public class Users {
 
     @Column
     private Integer achieve;
+
+    @Column
+    private LocalDate regidate;
 }

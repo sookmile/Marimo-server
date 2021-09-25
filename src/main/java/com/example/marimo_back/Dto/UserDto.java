@@ -2,6 +2,8 @@ package com.example.marimo_back.Dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,4 +26,6 @@ public class UserDto {
     private Boolean playnow;
 
     private Integer achieve;
+
+    private LocalDate regidate;
 }
