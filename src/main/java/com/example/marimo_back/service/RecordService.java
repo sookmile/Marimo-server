@@ -42,6 +42,6 @@ public class RecordService {
 
         Long gameJoinCount = recordRepository.getGameJoinCount(user);
 
-        return RecordResponseDto.builder().nickName(user.getNickname()).achievementRate(achievementRate).mostSuccess(mostSuccess).mostFail(mostFail).gameJoinNum(gameJoinCount).build();
+        return RecordResponseDto.builder().nickName(user.getNickname()).registerDate(user.getRegidate()).achievementRate(achievementRate).mostSuccess(mostSuccess).mostFail(mostFail).gameJoinNum(gameJoinCount).build();
     }
 }
