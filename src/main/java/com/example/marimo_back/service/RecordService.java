@@ -24,8 +24,8 @@ public class RecordService {
     public RecordResponseDto getUserAchievement(Long userId) {
         Users user = userRepository.findById(userId);
 
-        double successCount = recordRepository.findUserSuccessCount(user);
-        double failCount = recordRepository.findUserFailCount(user);
+        double successCount = recordRepository.getUserSuccessCount(user);
+        double failCount = recordRepository.getUserFailCount(user);
         Long achievementRate = Math.round((successCount / (successCount + failCount)) * 100);
 
         List<SuccessWord> mostSuccessWordList = recordRepository.findMostSuccessWord(user);
@@ -40,6 +40,8 @@ public class RecordService {
             mostFail.add(w.getWord());
         }
 
-        return RecordResponseDto.builder().nickName(user.getNickname()).achievementRate(achievementRate).mostSuccess(mostSuccess).mostFail(mostFail).build();
+        Long gameJoinCount = recordRepository.getGameJoinCount(user);
+
+        return RecordResponseDto.builder().nickName(user.getNickname()).achievementRate(achievementRate).mostSuccess(mostSuccess).mostFail(mostFail).gameJoinNum(gameJoinCount).build();
     }
 }

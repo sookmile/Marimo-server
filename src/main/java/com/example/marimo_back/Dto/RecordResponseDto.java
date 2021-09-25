@@ -23,7 +23,7 @@ public class RecordResponseDto {
 
     private List<String> mostFail;
 
-    private Integer gameJoinNum;
+    private Long gameJoinNum;
 
-    private Integer taleJoinNum;
+    private Long taleJoinNum;
 }
