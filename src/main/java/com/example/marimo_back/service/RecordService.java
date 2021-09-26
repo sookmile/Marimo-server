@@ -28,17 +28,8 @@ public class RecordService {
         double failCount = recordRepository.getUserFailCount(user);
         Long achievementRate = Math.round((successCount / (successCount + failCount)) * 100);
 
-        List<SuccessWord> mostSuccessWordList = recordRepository.findMostSuccessWord(user);
-        List<String> mostSuccess = new ArrayList<>();
-        for (SuccessWord w : mostSuccessWordList) {
-            mostSuccess.add(w.getWord());
-        }
-
-        List<FailWord> mostFailWordList = recordRepository.findMostFailWord(user);
-        List<String> mostFail = new ArrayList<>();
-        for (FailWord w : mostFailWordList) {
-            mostFail.add(w.getWord());
-        }
+        List<String> mostSuccess = recordRepository.findMostSuccessWord(user);
+        List<String> mostFail = recordRepository.findMostFailWord(user);
 
         Long gameJoinCount = recordRepository.getGameJoinCount(user);
 
