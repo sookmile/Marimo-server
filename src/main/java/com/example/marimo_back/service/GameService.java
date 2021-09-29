@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -76,7 +73,6 @@ public class GameService {
         wordData.put("ㄱㄷ", new String[]{"기도", "구두", "기대"});
         wordData.put("ㅇㄱ", new String[]{"아기", "야구"});
 
-
         String[] initials = {"ㅇㅇ", "ㅇㄷ", "ㅇㄹ", "ㅇㅈ", "ㅅㄹ", "ㄱㄱ", "ㄴㅁ", "ㅈㄹ", "ㅈㄷ", "ㅇㅅ", "ㄱㅅ", "ㅅㅈ", "ㅎㄹ", "ㄱㄷ", "ㅇㄱ"};
 
         List<GameDataResponseDto> dtoList = new ArrayList<>();
@@ -118,7 +114,7 @@ public class GameService {
                 vowelList.add(vowel.toString());
             }
 
-            dtoList.add(GameDataResponseDto.builder().initial(initials[randomNum[k]]).vowel(vowelList).word(wordList).answer(wordList.get(0)).build());
+            dtoList.add(GameDataResponseDto.builder().initial(initials[randomNum[k]]).vowel(vowelList).word(wordList).answer(wordList.get((int) (Math.random() * 2))).build());
         }
 
         return dtoList;
