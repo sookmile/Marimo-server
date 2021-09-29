@@ -66,7 +66,18 @@ public class GameService {
         wordData.put("ㅇㅈ", new String[]{"의자", "여자", "어제", "의지", "우주"});
         wordData.put("ㅅㄹ", new String[]{"소리", "세로"});
         wordData.put("ㄱㄱ", new String[]{"고기", "가게", "거기", "가구",});
-        String[] initials = {"ㅇㅇ", "ㅇㄷ", "ㅇㄹ", "ㅇㅈ", "ㅅㄹ", "ㄱㄱ"};
+        wordData.put("ㄴㅁ", new String[]{"나무", "네모"});
+        wordData.put("ㅈㄹ", new String[]{"자리", "자라"});
+        wordData.put("ㅈㄷ", new String[]{"지도", "자두"});
+        wordData.put("ㅇㅅ", new String[]{"이사", "의사"});
+        wordData.put("ㄱㅅ", new String[]{"가시", "기사"});
+        wordData.put("ㅅㅈ", new String[]{"사자", "수저"});
+        wordData.put("ㅎㄹ", new String[]{"하루", "허리"});
+        wordData.put("ㄱㄷ", new String[]{"기도", "구두", "기대"});
+        wordData.put("ㅇㄱ", new String[]{"아기", "야구"});
+
+
+        String[] initials = {"ㅇㅇ", "ㅇㄷ", "ㅇㄹ", "ㅇㅈ", "ㅅㄹ", "ㄱㄱ", "ㄴㅁ", "ㅈㄹ", "ㅈㄷ", "ㅇㅅ", "ㄱㅅ", "ㅅㅈ", "ㅎㄹ", "ㄱㄷ", "ㅇㄱ"};
 
         List<GameDataResponseDto> dtoList = new ArrayList<>();
 
