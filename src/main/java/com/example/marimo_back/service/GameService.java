@@ -128,7 +128,8 @@ public class GameService {
         String word = dto.getWord();
         String speakWord = dto.getSpeakWord();
 
-        // 저장하는 부분 있어야 함
+        ArrayList<String> phoneme = new ArrayList<>();
+        ArrayList<Integer> feedback = new ArrayList<>();
 
         String[] CHO = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"};
         String[] JOONG = {"ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"};
@@ -164,8 +165,7 @@ public class GameService {
             } else {
                 result.append(word).append("이라고 다시 발음해보세요!");
             }
-        }
-        else {
+        } else {
             int count = 0;
             for (int i = 0; i < speakWordList.size(); i++) {
                 String w = wordList.get(i);
@@ -176,8 +176,12 @@ public class GameService {
                         result = new StringBuilder();
                         if (wordList.get(wordList.size() - 1).equals("")) {
                             result.append(word).append("라고 다시 발음해보세요!");
+                            phoneme = new ArrayList<>();
+                            feedback = new ArrayList<>();
                         } else {
                             result.append(word).append("이라고 다시 발음해보세요!");
+                            phoneme = new ArrayList<>();
+                            feedback = new ArrayList<>();
                         }
                         break;
                     }
@@ -186,24 +190,39 @@ public class GameService {
                     if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
                         if (w.equals("")) {
                             result.append("'").append(word.charAt(i / 3)).append("'에는 받침이 없어요.").append("\n");
+                            phoneme.add(null);
+                            feedback.add(3);
                         }
                         if (sw.equals("")) {
                             result.append("'").append(word.charAt(i / 3)).append("'의 받침을 발음하지 않았어요.").append("\n");
+                            phoneme.add(w);
+                            feedback.add(5);
                         }
                         if (!w.equals("") && !sw.equals("")) {
                             result.append("'").append(word.charAt(i / 3)).append("'의 받침을 잘못 발음했어요.").append("\n");
+                            phoneme.add(w);
+                            feedback.add(4);
                         }
                     }
                     // 초성 틀린 경우
                     if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
                         result.append("'").append(word.charAt(i / 3)).append("'의 ").append(w).append("을 ").append(sw).append("으로 발음했어요.").append("\n");
+                        phoneme.add(w);
+                        feedback.add(1);
                     }
                     // 중성 틀린 경우
                     if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
                         result.append("'").append(word.charAt(i / 3)).append("'의 ").append(w).append("를 ").append(sw).append("로 발음했어요.").append("\n");
+                        phoneme.add(w);
+                        feedback.add(2);
                     }
                 }
             }
+        }
+
+        for (int i = 0; i < feedback.size(); i++) {
+            FailDetail failDetail = FailDetail.builder().user(user).word(word).speakWord(speakWord).phoneme(phoneme.get(i)).feedback(feedback.get(i)).build();
+            gameRepository.saveFailDetail(failDetail);
         }
 
         return result.toString();
