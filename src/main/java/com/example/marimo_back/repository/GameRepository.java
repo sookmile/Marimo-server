@@ -1,9 +1,6 @@
 package com.example.marimo_back.repository;
 
-import com.example.marimo_back.domain.FailWord;
-import com.example.marimo_back.domain.Game;
-import com.example.marimo_back.domain.SuccessWord;
-import com.example.marimo_back.domain.Users;
+import com.example.marimo_back.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -40,5 +37,9 @@ public class GameRepository {
                 .setParameter("user", user)
                 .setParameter("word", word)
                 .getResultList();
+    }
+
+    public void saveFailDetail(FailDetail failDetail) {
+        em.persist(failDetail);
     }
 }
