@@ -1,7 +1,7 @@
 package com.example.marimo_back.service;
 
 import com.example.marimo_back.Dto.GameDataResponseDto;
-import com.example.marimo_back.Dto.GameRequestDto;
+import com.example.marimo_back.Dto.GameResultRequestDto;
 import com.example.marimo_back.Dto.GameWordRequestDto;
 import com.example.marimo_back.domain.*;
 import com.example.marimo_back.repository.GameRepository;
@@ -21,36 +21,12 @@ public class GameService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
 
-    public void saveResult(GameRequestDto dto) {
+    public void saveResult(GameResultRequestDto dto) {
         long userId = dto.getUserId();
         Users user = userRepository.findById(userId);
 
-        //게임 저장
-        Game game = Game.builder().user(user).category(dto.getCategory()).score(dto.getScore()).playtime(LocalDateTime.now()).build();
+        Game game = Game.builder().user(user).score(dto.getScore()).playtime(LocalDateTime.now()).build();
         gameRepository.saveGame(game);
-
-        //성공 단어 저장
-        for (String word : dto.getSuccess()) {
-            List<SuccessWord> successWordList = gameRepository.findSuccessWord(word, user);
-            if (successWordList.size() == 0) {
-                SuccessWord successWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
-                gameRepository.saveSuccessWord(successWord);
-            } else {
-                SuccessWord existWord = successWordList.get(0);
-                existWord.increaseNum(existWord.getNum());
-            }
-        }
-        //실패 단어 저장
-        for (String word : dto.getFail()) {
-            List<FailWord> failWordList = gameRepository.findFailWord(word, user);
-            if (failWordList.size() == 0) {
-                FailWord failWord = FailWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
-                gameRepository.saveFailWord(failWord);
-            } else {
-                FailWord existWord = failWordList.get(0);
-                existWord.increaseNum(existWord.getNum());
-            }
-        }
 
     }
 
@@ -128,6 +104,20 @@ public class GameService {
         String word = dto.getWord();
         String speakWord = dto.getSpeakWord();
 
+        // 발음 성공 시 성공 단어 저장
+        if (word.equals(speakWord)) {
+            List<SuccessWord> successWordList = gameRepository.findSuccessWord(word, user);
+            if (successWordList.size() == 0) {
+                SuccessWord successWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
+                gameRepository.saveSuccessWord(successWord);
+            } else {
+                SuccessWord existWord = successWordList.get(0);
+                existWord.increaseNum(existWord.getNum());
+            }
+            return "발음을 아주 잘했어요!";
+        }
+
+        // 발음 실패 시
         ArrayList<String> phoneme = new ArrayList<>();
         ArrayList<Integer> feedback = new ArrayList<>();
 
@@ -223,6 +213,16 @@ public class GameService {
         for (int i = 0; i < feedback.size(); i++) {
             FailDetail failDetail = FailDetail.builder().user(user).word(word).speakWord(speakWord).phoneme(phoneme.get(i)).feedback(feedback.get(i)).build();
             gameRepository.saveFailDetail(failDetail);
+        }
+        if (feedback.size() != 0) {
+            List<FailWord> failWordList = gameRepository.findFailWord(word, user);
+            if (failWordList.size() == 0) {
+                FailWord failWord = FailWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
+                gameRepository.saveFailWord(failWord);
+            } else {
+                FailWord existWord = failWordList.get(0);
+                existWord.increaseNum(existWord.getNum());
+            }
         }
 
         return result.toString();

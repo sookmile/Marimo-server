@@ -23,9 +23,6 @@ public class Game {
     private Users user;
 
     @Column(nullable = false)
-    private Integer category;
-
-    @Column(nullable = false)
     private Integer score;
 
     @Column(nullable = false)
