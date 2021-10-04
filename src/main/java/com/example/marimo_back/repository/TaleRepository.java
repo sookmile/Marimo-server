@@ -4,10 +4,12 @@ package com.example.marimo_back.repository;
 import com.example.marimo_back.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Transactional
 @Repository
 @RequiredArgsConstructor
 public class TaleRepository {
@@ -40,10 +42,10 @@ public class TaleRepository {
                 .getResultList();
     }
 
-    public List<Tale> findTailCount(Users user, Long tailId){
-        return em.createQuery("select w from Tale w where w.user = :user and w.id = :tailId", Tale.class)
+    public List<Tale> findTailCount(Users user, String tailName){
+        return em.createQuery("select w from Tale w where w.user = :user and w.taleName = :tailName", Tale.class)
                 .setParameter("user", user)
-                .setParameter("tailId", tailId)
+                .setParameter("tailName", tailName)
                 .getResultList();
     }
 

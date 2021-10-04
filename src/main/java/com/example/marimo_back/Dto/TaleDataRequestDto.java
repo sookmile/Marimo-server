@@ -10,7 +10,7 @@ public class TaleDataRequestDto {
 
     private Long userId;
 
-    private Integer Lastpage;
+    private Integer lastpage;
 
     private String oWord;
 

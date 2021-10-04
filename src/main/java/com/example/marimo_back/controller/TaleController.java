@@ -21,6 +21,8 @@ public class TaleController {
     @PostMapping("marimo/tale/save")
     public String saveTale(@RequestBody TaleResultDataDto dto){
 
+        System.out.println(dto.getTaleName()+dto.getLastpage()+dto.getUserId());
+
         taleService.saveResult(dto);
 
         return "Success";
@@ -30,6 +32,7 @@ public class TaleController {
     @PostMapping("marimo/tale/feedback")
     public String saveTaleAndFeedBack (@RequestBody TaleDataRequestDto dto) {
 
+        System.out.println(dto.getOWord()+dto.getRWord()+dto.getLastpage());
         return taleService.saveTaleFeedback(dto);
     }
 
