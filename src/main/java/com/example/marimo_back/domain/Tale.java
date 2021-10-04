@@ -22,12 +22,12 @@ public class Tale {
     private Users user;
 
     @Column(name = "TALE_NAME")
-    private String TaleName;
+    private String taleName;
 
     @Column(name = "TALE_PLAYNUM")
-    private Integer TalePlaynum;
+    private Integer talePlaynum;
 
     @Column(name = "LASTPAGE")
-    private Integer Lastpage;
+    private Integer lastpage;
 
 }

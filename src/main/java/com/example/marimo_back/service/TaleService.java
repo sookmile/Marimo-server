@@ -160,12 +160,12 @@ public class TaleService {
 
         int playcount =0;
 
-        List<Tale> tails =taleRepository.findTailCount(user, dto.getTailId());
+        List<Tale> tails =taleRepository.findTailCount(user, dto.getId());
         if(tails.size()!=0){
             playcount = tails.get(0).getTalePlaynum()+1;
         }
 
-        Tale tale = Tale.builder().user(user).TaleName(dto.getTaleName()).TalePlaynum(playcount).id(dto.getTailId()).Lastpage(dto.getLastpage()).build();
+        Tale tale = Tale.builder().user(user).taleName(dto.getTaleName()).talePlaynum(playcount).id(dto.getId()).lastpage(dto.getLastpage()).build();
 
         taleRepository.saveTail(tale);
 

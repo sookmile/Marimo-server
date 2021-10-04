@@ -27,7 +27,7 @@ public class TaleController {
     }
 
     @ResponseBody
-    @PostMapping("marimo/tale/save")
+    @PostMapping("marimo/tale/feedback")
     public String saveTaleAndFeedBack (@RequestBody TaleDataRequestDto dto) {
 
         return taleService.saveTaleFeedback(dto);

@@ -10,13 +10,11 @@ public class TaleResultDataDto {
 
     private Long userId;
 
-    private Long tailId;
+    private Long id;
 
-    private String TaleName;
+    private String taleName;
 
-    private Integer TalePlaynum;
-
-    private Integer Lastpage;
+    private Integer lastpage;
 
 
 }

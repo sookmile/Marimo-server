@@ -20,4 +20,5 @@ public class RecordController {
         Long userId = userInfo.get("userId");
         return recordService.getUserAchievement(userId);
     }
+
 }
