@@ -19,10 +19,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDto saveUser(Map<Object, String> userinfo) {
-        String email = userinfo.get("email");
         String username = userinfo.get("username");
+        String identifier = userinfo.get("identifier");
 
-        List<Users> userList = userRepository.findUser(email);
+        List<Users> userList = userRepository.findUser(identifier);
         if (userList.size() > 0) {
             // 이미 저장된 유저라면 저장된 정보 넘겨주기
             Users user;
@@ -34,7 +34,7 @@ public class UserService {
             return makeDto(user);
         }
         // 새로 가입하는 유저라면 정보 저장하기
-        Users newUser = Users.builder().email(email).username(username).playnum(0).premium(false).regidate(LocalDate.now()).build();
+        Users newUser = Users.builder().identifier(identifier).username(username).playnum(0).premium(false).regidate(LocalDate.now()).build();
         userRepository.save(newUser);
         return makeDto(newUser);
     }
@@ -70,7 +70,7 @@ public class UserService {
 
     //==Dto 생성==//
     private UserDto makeDto(Users user) {
-        return UserDto.builder().id(user.getId()).email(user.getEmail())
+        return UserDto.builder().id(user.getId()).identifier(user.getIdentifier())
                 .nickname(user.getNickname()).character(user.getCharacter()).playnow(user.getPlaynow())
                 .playnum(user.getPlaynum()).premium(user.getPremium()).achieve(user.getAchieve()).regidate(user.getRegidate()).build();
     }
