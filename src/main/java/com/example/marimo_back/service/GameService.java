@@ -91,7 +91,12 @@ public class GameService {
                 vowelList.add(vowel.toString());
             }
 
-            dtoList.add(GameDataResponseDto.builder().initial(initials[randomNum[k]]).vowel(vowelList).word(wordList).answer(wordList.get((int) (Math.random() * 2))).build());
+            int random = (int) (Math.random() * 2);
+            String answer = wordList.get(random);
+            String vowelAnswer = vowelList.get(random);
+
+
+            dtoList.add(GameDataResponseDto.builder().initial(initials[randomNum[k]]).vowel(vowelList).word(wordList).answer(answer).vowelAnswer(vowelAnswer).build());
         }
 
         return dtoList;
