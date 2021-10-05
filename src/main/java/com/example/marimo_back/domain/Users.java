@@ -25,7 +25,7 @@ public class Users {
     private String nickname;
 
     @Column(nullable = false, unique = true, length = 100)
-    private String email;
+    private String identifier;
 
     @Column(name = "CHARAC")
     private Integer character;

@@ -17,4 +17,6 @@ public class GameDataResponseDto {
 
     private String answer;
 
+    private String vowelAnswer;
+
 }

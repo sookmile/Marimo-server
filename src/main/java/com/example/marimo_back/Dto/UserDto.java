@@ -15,7 +15,7 @@ public class UserDto {
 
     private String nickname;
 
-    private String email;
+    private String identifier;
 
     private Integer character;
 

@@ -21,9 +21,9 @@ public class UserRepository {
         return em.find(Users.class, userId);
     }
 
-    public List<Users> findUser(String email) {
-        return em.createQuery("select u from Users u where u.email = :email", Users.class)
-                .setParameter("email", email)
+    public List<Users> findUser(String identifier) {
+        return em.createQuery("select u from Users u where u.identifier = :identifier", Users.class)
+                .setParameter("identifier", identifier)
                 .getResultList();
     }
 }
