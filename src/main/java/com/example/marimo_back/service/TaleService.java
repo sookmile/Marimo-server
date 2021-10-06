@@ -60,7 +60,6 @@ public class TaleService {
 //        String word = "장미꽃";
 //        String speakWord = "장이꽃";
 
-        StringBuilder sb = new StringBuilder();
         ArrayList<String> wordList = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
@@ -70,6 +69,21 @@ public class TaleService {
             wordList.add(CHO[chosung]);
             wordList.add(JOONG[joongsung]);
             wordList.add(JONG[jongsung]);
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        // 영문 들어오면 바로 return
+        for (int i = 0; i < speakWord.length(); i++) {
+            char index = speakWord.charAt(i);
+            if (index >= 65 && index <= 122) {
+                if (wordList.get(wordList.size() - 1).equals("")) {
+                    result.append(word).append("라고 다시 발음해보세요!");
+                } else {
+                    result.append(word).append("이라고 다시 발음해보세요!");
+                }
+                return result.toString();
+            }
         }
 
         ArrayList<String> speakWordList = new ArrayList<>();
@@ -82,9 +96,6 @@ public class TaleService {
             speakWordList.add(JOONG[joongsung]);
             speakWordList.add(JONG[jongsung]);
         }
-
-
-        StringBuilder result = new StringBuilder();
 
         if (word.length() != speakWord.length()) {
             if (wordList.get(wordList.size() - 1).equals("")) {
