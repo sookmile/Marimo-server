@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Transactional
@@ -51,6 +52,16 @@ public class TaleRepository {
 
     public void saveTail(Tale tale) {
         em.persist(tale);
+    }
+
+//    @Modifying
+//    @Query("")
+//    public void updateTalePlayCount( String tailName);
+
+    public Query updateTalePlayCount(String tailName, Users user){
+        return em.createQuery("update Tale t set t.talePlaynum=t.talePlaynum+1 where t.user=:user and t.taleName=:tailName ")
+                .setParameter("user", user)
+                .setParameter("tailName", tailName);
     }
 
 }

@@ -1,9 +1,6 @@
 package com.example.marimo_back.repository;
 
-import com.example.marimo_back.domain.FailWord;
-import com.example.marimo_back.domain.Game;
-import com.example.marimo_back.domain.SuccessWord;
-import com.example.marimo_back.domain.Users;
+import com.example.marimo_back.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -74,4 +71,31 @@ public class RecordRepository {
                 .setParameter("s",s)
                 .getResultList();
     }
+
+    public List<SuccessWord> successWords5(Users users){
+        return em.createQuery("select  w from SuccessWord w where w.user=:user order by w.num desc", SuccessWord.class)
+                .setParameter("user", users)
+                .getResultList();
+    }
+
+    public List<Tale> tales(Users users, String tailName){
+        return em.createQuery("select t from Tale t where t.user=:users and t.taleName=:tailName", Tale.class)
+                .setParameter("users", users)
+                .setParameter("tailName", tailName)
+                .getResultList();
+    }
+
+    public List<Game> gamePlayCount (Users users){
+        return em.createQuery("select g from Game g where g.user=:users", Game.class)
+                .setParameter("users", users)
+                .getResultList();
+    }
+
+    public List<SuccessWord> categoryBestSuccessWord(Users users , Category category){
+        return em.createQuery("select s from SuccessWord s where s.user=:users and s.category=:category order by s.num", SuccessWord.class)
+                .setParameter("users", users)
+                .setParameter("category", category)
+                .getResultList();
+    }
+
 }

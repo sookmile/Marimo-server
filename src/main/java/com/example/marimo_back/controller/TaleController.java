@@ -36,5 +36,5 @@ public class TaleController {
         return taleService.saveTaleFeedback(dto);
     }
 
-
+//    침대, 이불, 시계, 축구공, 액자, 냉장고, 사과포도, 수박, 바나나, 달력, 기차, 자전거, 색연필, 도토리, 장갑
 }

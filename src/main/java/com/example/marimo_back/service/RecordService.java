@@ -1,12 +1,11 @@
 package com.example.marimo_back.service;
 
 import com.example.marimo_back.Dto.RecordResponseDto;
-import com.example.marimo_back.domain.FailWord;
-import com.example.marimo_back.domain.SuccessWord;
-import com.example.marimo_back.domain.Users;
+import com.example.marimo_back.domain.*;
 import com.example.marimo_back.repository.RecordRepository;
 import com.example.marimo_back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -100,7 +99,59 @@ public class RecordService {
         // 일반적 발달요소에 포함되지 않는 요소일 경우
         if(freqeuntcount[0]>0) weaknessStartMiddleEnd[0]= weaknessStartMiddleEnd[0]+"하지만 어려워하는 자음들은 적절한 발달과정이니 걱정마세요!";
 
-        return RecordResponseDto.builder().nickName(user.getNickname()).registerDate(user.getRegidate()).achievementRate(achievementRate).mostSuccess(mostSuccess).mostFail(mostFail).gameJoinNum(gameJoinCount).successCount(mostSuccessWordCount).analysis(weaknessStartMiddleEnd[0]).build();
+        Map<String, Integer> mostSuccessWordGame = new LinkedHashMap<>();
+        Map<String, Integer> mostSuccessWordTale = new LinkedHashMap<>();
+        Map<String, Integer> mostSuccessWordExplore = new LinkedHashMap<>();
+        final int[] count = {0};
+        boolean[] get = {false,false,false};//game, tale, explore
+        List<SuccessWord> successwords = recordRepository.successWords5(user);
+        successwords.forEach(w->{
+            count[0]++;
+            System.out.println(w.getWord()+w.getNum()+w.getCategory());
+            if(w.getCategory().equals(Category.GAME)&&!get[0]){
+                mostSuccessWordGame.put(w.getWord(),w.getNum());
+                get[0]=true;
+            }
+            if(w.getCategory().equals(Category.TALE)&&!get[1]){
+                mostSuccessWordTale.put(w.getWord(),w.getNum());
+                get[1]=true;
+            }
+            if(w.getCategory().equals(Category.EXPLORE)&&!get[2]){
+                mostSuccessWordExplore.put(w.getWord(),w.getNum());
+                get[2]=true;
+            }
+        });
+
+        String[] taleName = {"호랑이의 생일잔치"};
+        List<Tale> tales = recordRepository.tales(user, taleName[0]);
+        int[] taleplaynum = {0};
+        taleplaynum[0]=tales.size();
+
+        List<SuccessWord> taleBestWords = recordRepository.categoryBestSuccessWord(user, Category.TALE);
+        String taleBestWord="";
+        if(taleBestWords.size()!=0) taleBestWord=taleBestWords.get(0).getWord();
+
+
+        List<SuccessWord> gameBestWord = recordRepository.categoryBestSuccessWord(user,Category.GAME);
+
+
+        return RecordResponseDto.builder()
+                .nickName(user.getNickname())
+                .registerDate(user.getRegidate())
+                .achievementRate(achievementRate)
+                .mostSuccess(mostSuccess)
+                .mostFail(mostFail)
+                .gameJoinNum(gameJoinCount)
+                .successCount(mostSuccessWordCount)
+                .analysis(weaknessStartMiddleEnd[0])
+                .successwordInGame(mostSuccessWordGame)
+                .successwordInTale(mostSuccessWordTale)
+                .successwordInExplore(mostSuccessWordExplore)
+                .talePlayCount(taleplaynum[0])
+                .gamePlayCount(recordRepository.gamePlayCount(user).size())
+                .gameBestWord(gameBestWord.get(0).getWord())
+                .taleBestWord(taleBestWord)
+                .build();
     }
 
     public Map<String, Integer> userFailAnalysis(Long userId){

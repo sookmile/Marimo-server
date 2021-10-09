@@ -40,7 +40,7 @@ public class TaleService {
         if (word.equals(speakWord)) {
             List<SuccessWord> successWordList =taleRepository.findSuccessWord(word, user);
             if (successWordList.size() == 0) {
-                SuccessWord successWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
+                SuccessWord successWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.TALE).build();
                 taleRepository.saveSuccessWord(successWord);
             } else {
                 SuccessWord existWord = successWordList.get(0);
