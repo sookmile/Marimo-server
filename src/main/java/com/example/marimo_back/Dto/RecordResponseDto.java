@@ -36,7 +36,6 @@ public class RecordResponseDto {
 
     private Map<String, Integer> successwordInGame;
 
-
     private Map<String, Integer> successwordInTale;
 
     private Map<String, Integer> successwordInExplore;
@@ -45,13 +44,9 @@ public class RecordResponseDto {
 
     private Integer gamePlayCount;
 
-//    private Map<String,Integer> taleBestWord;
-//    private Map<String,Integer> gameBestWord;
-
     private String  taleBestWord;
-    private String gameBestWord;
 
-//    private Map<String,Integer> mostSuccessWord;
+    private String gameBestWord;
 
     private List<HashMap> mostSuccessWord;
 
