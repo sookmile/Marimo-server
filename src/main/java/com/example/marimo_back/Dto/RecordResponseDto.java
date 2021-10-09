@@ -50,6 +50,8 @@ public class RecordResponseDto {
     private String  taleBestWord;
     private String gameBestWord;
 
+    private Map<String,Integer> mostSuccessWord;
+
 
 
 }

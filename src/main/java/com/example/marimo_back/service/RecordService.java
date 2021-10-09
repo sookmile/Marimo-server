@@ -105,8 +105,13 @@ public class RecordService {
         final int[] count = {0};
         boolean[] get = {false,false,false};//game, tale, explore
         List<SuccessWord> successwords = recordRepository.successWords5(user);
+        HashMap<String, Integer> mostSuccessWord =new LinkedHashMap<>();
         successwords.forEach(w->{
+
             count[0]++;
+            if(count[0]<5){
+                mostSuccessWord.put(w.getWord(),w.getNum());
+            }
             System.out.println(w.getWord()+w.getNum()+w.getCategory());
             if(w.getCategory().equals(Category.GAME)&&!get[0]){
                 mostSuccessWordGame.put(w.getWord(),w.getNum());
@@ -129,8 +134,8 @@ public class RecordService {
 
         List<SuccessWord> taleBestWords = recordRepository.categoryBestSuccessWord(user, Category.TALE);
         String taleBestWord="";
-        if(taleBestWords.size()!=0) taleBestWord=taleBestWords.get(0).getWord();
-
+        if(taleBestWords.size()!=0) taleBestWord=taleBestWords.get(0).getWord(); 
+        
 
         List<SuccessWord> gameBestWord = recordRepository.categoryBestSuccessWord(user,Category.GAME);
 
@@ -151,6 +156,7 @@ public class RecordService {
                 .gamePlayCount(recordRepository.gamePlayCount(user).size())
                 .gameBestWord(gameBestWord.get(0).getWord())
                 .taleBestWord(taleBestWord)
+                .mostSuccessWord(mostSuccessWord)
                 .build();
     }
 
