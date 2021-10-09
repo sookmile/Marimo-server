@@ -105,12 +105,14 @@ public class RecordService {
         final int[] count = {0};
         boolean[] get = {false,false,false};//game, tale, explore
         List<SuccessWord> successwords = recordRepository.successWords5(user);
-        HashMap<String, Integer> mostSuccessWord =new LinkedHashMap<>();
+        List<HashMap> mostSuccessWord = new LinkedList<>();
         successwords.forEach(w->{
+            HashMap<String, Integer> tmp =new LinkedHashMap<>();
 
             count[0]++;
             if(count[0]<5){
-                mostSuccessWord.put(w.getWord(),w.getNum());
+                tmp.put(w.getWord(),w.getNum());
+                mostSuccessWord.add(tmp);
             }
             System.out.println(w.getWord()+w.getNum()+w.getCategory());
             if(w.getCategory().equals(Category.GAME)&&!get[0]){

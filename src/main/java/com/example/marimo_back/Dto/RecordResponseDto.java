@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +51,8 @@ public class RecordResponseDto {
     private String  taleBestWord;
     private String gameBestWord;
 
-    private Map<String,Integer> mostSuccessWord;
+//    private Map<String,Integer> mostSuccessWord;
 
-
+    private List<HashMap> mostSuccessWord;
 
 }
