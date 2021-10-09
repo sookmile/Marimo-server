@@ -92,7 +92,7 @@ public class RecordService {
         // 초중종성 중 어떤게 가장 약한지 ->1
         // 자음의 경우 초성인지 종성인지 (각1,3)을 분석한다.
         final String[] weaknessStartMiddleEnd = {(allStartMiddleEnd[0] > allStartMiddleEnd[1]) && (allStartMiddleEnd[0] > allStartMiddleEnd[2]) ? "중성과 종성" : (allStartMiddleEnd[2] > allStartMiddleEnd[1] ? "초성과 모음" : "초성과 중성")};
-        weaknessStartMiddleEnd[0] = weaknessStartMiddleEnd[0] +"에 능숙합니다. 아직";
+        weaknessStartMiddleEnd[0] = weaknessStartMiddleEnd[0] +"에 능숙합니다. 아직 ";
         System.out.println(weaknessStartMiddleEnd[0] );
         weaknessStartMiddleEnd[0] = weaknessStartMiddleEnd[0] + ((doublevowelscount[0] > normalvowelscount[0]) && (doublevowelscount[0] > roughvowelscount[0]) ? "된소리" : (roughvowelscount[0] > normalvowelscount[0] ? "거센소리" : "예사소리"));
         weaknessStartMiddleEnd[0] = weaknessStartMiddleEnd[0] +"의 발음에 어려움을 겪습니다.";
