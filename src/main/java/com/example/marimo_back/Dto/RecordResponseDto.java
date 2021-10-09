@@ -21,9 +21,13 @@ public class RecordResponseDto {
 
     private List<String> mostSuccess;
 
+    private Integer successCount;
+
     private List<String> mostFail;
 
     private Long gameJoinNum;
 
     private Long taleJoinNum;
+
+    private String analysis;
 }

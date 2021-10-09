@@ -56,4 +56,22 @@ public class RecordRepository {
                 .setParameter("user", user)
                 .getSingleResult();
     }
+
+    public Integer findMostSuccessWordCount(Users user) {
+        return em.createQuery("select max(subW.num) from SuccessWord subW where subW.user = :user ", Integer.class)
+                .setParameter("user", user)
+                .getSingleResult();
+    }
+
+    public List<String> getAllFailRisk(Users users){
+        return em.createQuery("select w.phoneme from FailDetail w where w.user =:user", String.class)
+                .setParameter("user",users)
+                .getResultList();
+    }
+    public List<Integer> getVowelFeedback(Users users, String s){
+        return em.createQuery("select w.feedback from FailDetail w where w.user=:user and  w.phoneme=:s", Integer.class )
+                .setParameter("user",users)
+                .setParameter("s",s)
+                .getResultList();
+    }
 }
