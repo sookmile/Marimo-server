@@ -141,6 +141,22 @@ public class RecordService {
 
         List<SuccessWord> gameBestWord = recordRepository.categoryBestSuccessWord(user,Category.GAME);
 
+        String gamebestword="";
+        if(gameBestWord.size()>0)  gamebestword = gameBestWord.get(0).getWord();
+        else gamebestword = "";
+
+        List<FailWord> mostfailwords = recordRepository.mostFailWords(user);
+        List<HashMap> mostFailWords = new LinkedList<>();
+        final int[] count2 = {0};
+        mostfailwords.forEach(word->{
+            if(count2[0] <3) {
+                HashMap<String, Category> tmp = new LinkedHashMap<>();
+                tmp.put(word.getWord(), word.getCategory());
+                mostFailWords.add(tmp);
+                count2[0]++;
+            }
+        });
+
 
         return RecordResponseDto.builder()
                 .nickName(user.getNickname())
@@ -156,9 +172,10 @@ public class RecordService {
                 .successwordInExplore(mostSuccessWordExplore)
                 .talePlayCount(taleplaynum[0])
                 .gamePlayCount(recordRepository.gamePlayCount(user).size())
-                .gameBestWord(gameBestWord.get(0).getWord())
+                .gameBestWord(gamebestword)
                 .taleBestWord(taleBestWord)
                 .mostSuccessWord(mostSuccessWord)
+                .mostFailWord(mostFailWords)
                 .build();
     }
 

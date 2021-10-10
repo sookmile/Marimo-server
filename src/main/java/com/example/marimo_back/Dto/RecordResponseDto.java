@@ -50,4 +50,6 @@ public class RecordResponseDto {
 
     private List<HashMap> mostSuccessWord;
 
+    private List<HashMap> mostFailWord;
+
 }

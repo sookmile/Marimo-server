@@ -98,4 +98,10 @@ public class RecordRepository {
                 .getResultList();
     }
 
+    public List<FailWord> mostFailWords(Users users){
+        return em.createQuery("select f from FailWord f where f.user=:users order by f.num desc ", FailWord.class)
+                .setParameter("users", users)
+                .getResultList();
+    }
+
 }
