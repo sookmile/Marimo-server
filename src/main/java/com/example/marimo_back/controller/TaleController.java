@@ -9,6 +9,7 @@ import com.example.marimo_back.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
@@ -40,7 +41,7 @@ public class TaleController {
 
     @ResponseBody
     @PostMapping("marimo/tale/speechuri")
-    public String sendSpeeachUri (@RequestBody Map<String,String> oWord) {
+    public Map<String, String> sendSpeeachUri (@RequestBody Map<String,String> oWord) {
 
         String[] requestList={"침대", "이불", "시계", "축구공", "액자", "냉장고", "사과", "포도", "수박", "바나나", "달력", "기차", "자전거", "색연필", "도토리", "장갑"};
         String[] requestLinks= {
@@ -62,14 +63,16 @@ public class TaleController {
                 "https://storage.googleapis.com/marimo_bucket/video/%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A1%E1%86%B8.mp4",
         };
 
+        Map<String, String> uri=new LinkedHashMap<>();
+
         for(int i=0; i<requestList.length; i++){
             if(oWord.get("word").equals(requestList[i])){
                 System.out.println(requestList[i]);
-                return requestLinks[i];
-
+                uri.put("uri", requestLinks[i]);
             }
         }
-        return "";
+
+        return uri;
     }
 
 }
