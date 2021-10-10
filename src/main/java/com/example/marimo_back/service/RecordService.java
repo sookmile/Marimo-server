@@ -107,11 +107,12 @@ public class RecordService {
         List<SuccessWord> successwords = recordRepository.successWords5(user);
         List<HashMap> mostSuccessWord = new LinkedList<>();
         successwords.forEach(w->{
-            HashMap<String, Integer> tmp =new LinkedHashMap<>();
+            HashMap<String, String> tmp =new LinkedHashMap<>();
 
             count[0]++;
             if(count[0]<5){
-                tmp.put(w.getWord(),w.getNum());
+                tmp.put("word",w.getWord());
+                tmp.put("count", String.valueOf(w.getNum()));
                 mostSuccessWord.add(tmp);
             }
             System.out.println(w.getWord()+w.getNum()+w.getCategory());
@@ -150,8 +151,9 @@ public class RecordService {
         final int[] count2 = {0};
         mostfailwords.forEach(word->{
             if(count2[0] <3) {
-                HashMap<String, Category> tmp = new LinkedHashMap<>();
-                tmp.put(word.getWord(), word.getCategory());
+                HashMap<String, String> tmp = new LinkedHashMap<>();
+                tmp.put("word",word.getWord());
+                tmp.put("count", String.valueOf(word.getCategory()));
                 mostFailWords.add(tmp);
                 count2[0]++;
             }
