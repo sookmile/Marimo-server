@@ -115,7 +115,7 @@ public class RecordService {
                 tmp.put("count", String.valueOf(w.getNum()));
                 mostSuccessWord.add(tmp);
             }
-            System.out.println(w.getWord()+w.getNum()+w.getCategory());
+//            System.out.println(w.getWord()+w.getNum()+w.getCategory());
             if(w.getCategory().equals(Category.GAME)&&!get[0]){
                 mostSuccessWordGame.put(w.getWord(),w.getNum());
                 get[0]=true;

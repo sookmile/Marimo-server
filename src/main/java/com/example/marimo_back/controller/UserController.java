@@ -9,7 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.1.5:8081")
 public class UserController {
 
     private final UserService userService;

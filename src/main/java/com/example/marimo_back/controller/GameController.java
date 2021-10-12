@@ -11,7 +11,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.1.5:8081")
+//@CrossOrigin(origins = "http://192.168.1.5:3000")
 public class GameController {
 
     private final GameService gameService;

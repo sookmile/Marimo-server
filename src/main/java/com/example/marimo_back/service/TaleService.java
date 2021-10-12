@@ -153,7 +153,7 @@ public class TaleService {
         if (feedback.size() != 0) {
             List<FailWord> failWordList = taleRepository.findFailWord(word, user);
             if (failWordList.size() == 0) {
-                FailWord failWord = FailWord.builder().user(user).word(word).num(1).category(Category.GAME).build();
+                FailWord failWord = FailWord.builder().user(user).word(word).num(1).category(Category.TALE).build();
                 taleRepository.saveFailWord(failWord);
             } else {
                 FailWord existWord = failWordList.get(0);
