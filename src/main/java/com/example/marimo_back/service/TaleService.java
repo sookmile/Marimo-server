@@ -193,12 +193,11 @@ public class TaleService {
         }
 
         else {
-            Tale tale = Tale.builder().user(user).taleName(dto.getTaleName()).talePlaynum(playcount).lastpage(dto.getLastpage()).build();
+            Tale tale = Tale.builder().user(user).taleName(dto.getTaleName()).talePlaynum(1).lastpage(dto.getLastpage()).build();
             taleRepository.saveTail(tale);
         }
 
-
-        System.out.println(recordRepository.talePlayCount(user,dto.getTaleName()));
+//        System.out.println(recordRepository.talePlayCount(user,dto.getTaleName()));
 
     }
 }
