@@ -78,11 +78,14 @@ public class RecordRepository {
                 .getResultList();
     }
 
-    public List<Tale> tales(Users users, String tailName){
-        return em.createQuery("select t from Tale t where t.user=:users and t.taleName=:tailName", Tale.class)
+
+    public Integer talePlayCount(Users users, String taleName){
+
+        List<Tale> tales = em.createQuery("select t from Tale t where t.user=:users and t.taleName=:taleName order by t.id desc", Tale.class)
                 .setParameter("users", users)
-                .setParameter("tailName", tailName)
+                .setParameter("taleName", taleName)
                 .getResultList();
+        return tales.get(0).getTalePlaynum();
     }
 
     public List<Game> gamePlayCount (Users users){

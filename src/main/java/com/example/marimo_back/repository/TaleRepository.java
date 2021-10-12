@@ -3,6 +3,8 @@ package com.example.marimo_back.repository;
 
 import com.example.marimo_back.domain.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,14 +56,22 @@ public class TaleRepository {
         em.persist(tale);
     }
 
-//    @Modifying
-//    @Query("")
-//    public void updateTalePlayCount( String tailName);
+    @Transactional
+    public void updateTalePlayCount(String tailName, Long userid, Integer lastpage ){
+        Long taleid = em.createQuery("select max (t.id) from Tale  t where  t.user.id=:userid and t.taleName=:tailName", Long.class)
+                .setParameter("tailName", tailName)
+                .setParameter("userid", userid)
+                .getSingleResult();
 
-    public Query updateTalePlayCount(String tailName, Users user){
-        return em.createQuery("update Tale t set t.talePlaynum=t.talePlaynum+1 where t.user=:user and t.taleName=:tailName ")
-                .setParameter("user", user)
-                .setParameter("tailName", tailName);
+        System.out.println(lastpage);
+        Query query = em.createNativeQuery("update TALE t set t.TALE_PLAYNUM=t.TALE_PLAYNUM+1 ,  t.LASTPAGE=:lastpage where t.USER_ID=:userid and t.TALE_NAME=:tailName and t.TALE_ID=:taleId");
+        query.setParameter("userid", userid);
+        query.setParameter("taleId",taleid);
+        query.setParameter("lastpage", lastpage);
+        query.setParameter("tailName", tailName);
+        query.executeUpdate();
+
     }
+
 
 }

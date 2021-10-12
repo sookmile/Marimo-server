@@ -131,9 +131,10 @@ public class RecordService {
         });
 
         String[] taleName = {"호랑이의 생일잔치"};
-        List<Tale> tales = recordRepository.tales(user, taleName[0]);
-        int[] taleplaynum = {0};
-        taleplaynum[0]=tales.size();
+////        List<Tale> tales = recordRepository.tales(user, taleName[0]);
+//        int[] taleplaynum = {0};
+////        taleplaynum[0]=tales.size();
+//        taleplaynum[0]=recordRepository.talePlayCount(user,taleName[0]);
 
         List<SuccessWord> taleBestWords = recordRepository.categoryBestSuccessWord(user, Category.TALE);
         String taleBestWord="";
@@ -172,7 +173,7 @@ public class RecordService {
                 .successwordInGame(mostSuccessWordGame)
                 .successwordInTale(mostSuccessWordTale)
                 .successwordInExplore(mostSuccessWordExplore)
-                .talePlayCount(taleplaynum[0])
+                .talePlayCount(recordRepository.talePlayCount(user,taleName[0]))
                 .gamePlayCount(recordRepository.gamePlayCount(user).size())
                 .gameBestWord(gamebestword)
                 .taleBestWord(taleBestWord)

@@ -6,10 +6,12 @@ import com.example.marimo_back.Dto.TaleDataRequestDto;
 import com.example.marimo_back.Dto.TaleResultDataDto;
 import com.example.marimo_back.domain.*;
 import com.example.marimo_back.repository.GameRepository;
+import com.example.marimo_back.repository.RecordRepository;
 import com.example.marimo_back.repository.TaleRepository;
 import com.example.marimo_back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class TaleService {
     private final UserRepository userRepository;
 
     private final GameRepository gameRepository;
+
+    private final RecordRepository recordRepository;
 
 
     public String saveTaleFeedback(TaleDataRequestDto dto){
@@ -56,9 +60,6 @@ public class TaleService {
         String[] CHO = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"};
         String[] JOONG = {"ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"};
         String[] JONG = {"", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"};
-
-//        String word = "장미꽃";
-//        String speakWord = "장이꽃";
 
         ArrayList<String> wordList = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
@@ -97,14 +98,14 @@ public class TaleService {
             speakWordList.add(JONG[jongsung]);
         }
 
+
         if (word.length() != speakWord.length()) {
             if (wordList.get(wordList.size() - 1).equals("")) {
                 result.append(word).append("라고 다시 발음해보세요!");
             } else {
                 result.append(word).append("이라고 다시 발음해보세요!");
             }
-        }
-        else {
+        } else {
             int count = 0;
             for (int i = 0; i < speakWordList.size(); i++) {
                 String w = wordList.get(i);
@@ -115,8 +116,12 @@ public class TaleService {
                         result = new StringBuilder();
                         if (wordList.get(wordList.size() - 1).equals("")) {
                             result.append(word).append("라고 다시 발음해보세요!");
+                            phoneme = new ArrayList<>();
+                            feedback = new ArrayList<>();
                         } else {
                             result.append(word).append("이라고 다시 발음해보세요!");
+                            phoneme = new ArrayList<>();
+                            feedback = new ArrayList<>();
                         }
                         break;
                     }
@@ -125,26 +130,35 @@ public class TaleService {
                     if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
                         if (w.equals("")) {
                             result.append("'").append(word.charAt(i / 3)).append("'에는 받침이 없어요.").append("\n");
+                            phoneme.add(null);
+                            feedback.add(3);
                         }
                         if (sw.equals("")) {
                             result.append("'").append(word.charAt(i / 3)).append("'의 받침을 발음하지 않았어요.").append("\n");
+                            phoneme.add(w);
+                            feedback.add(5);
                         }
                         if (!w.equals("") && !sw.equals("")) {
                             result.append("'").append(word.charAt(i / 3)).append("'의 받침을 잘못 발음했어요.").append("\n");
+                            phoneme.add(w);
+                            feedback.add(4);
                         }
                     }
                     // 초성 틀린 경우
                     if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
                         result.append("'").append(word.charAt(i / 3)).append("'의 ").append(w).append("을 ").append(sw).append("으로 발음했어요.").append("\n");
+                        phoneme.add(w);
+                        feedback.add(1);
                     }
                     // 중성 틀린 경우
                     if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
                         result.append("'").append(word.charAt(i / 3)).append("'의 ").append(w).append("를 ").append(sw).append("로 발음했어요.").append("\n");
+                        phoneme.add(w);
+                        feedback.add(2);
                     }
                 }
             }
         }
-        System.out.println(result);
 
         for (int i = 0; i < feedback.size(); i++) {
             FailDetail failDetail = FailDetail.builder().user(user).word(word).speakWord(speakWord).phoneme(phoneme.get(i)).feedback(feedback.get(i)).build();
@@ -165,6 +179,7 @@ public class TaleService {
 
     }
 
+
     public void saveResult(TaleResultDataDto dto) {
         long userId = dto.getUserId();
         Users user = userRepository.findById(userId);
@@ -173,12 +188,17 @@ public class TaleService {
 
         List<Tale> tails =taleRepository.findTailCount(user, dto.getTaleName());
         if(tails.size()!=0){
-            playcount = tails.get(0).getTalePlaynum()+1;
+            taleRepository.updateTalePlayCount(dto.getTaleName(), userId, dto.getLastpage() );
+            System.out.println("dd"+tails.size());
         }
 
-        Tale tale = Tale.builder().user(user).taleName(dto.getTaleName()).talePlaynum(playcount).lastpage(dto.getLastpage()).build();
+        else {
+            Tale tale = Tale.builder().user(user).taleName(dto.getTaleName()).talePlaynum(playcount).lastpage(dto.getLastpage()).build();
+            taleRepository.saveTail(tale);
+        }
 
-        taleRepository.saveTail(tale);
+
+        System.out.println(recordRepository.talePlayCount(user,dto.getTaleName()));
 
     }
 }
