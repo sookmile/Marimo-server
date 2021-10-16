@@ -85,6 +85,9 @@ public class RecordRepository {
                 .setParameter("users", users)
                 .setParameter("taleName", taleName)
                 .getResultList();
+        if(tales.size()==0){
+            return 0;
+        }
         return tales.get(0).getTalePlaynum();
     }
 

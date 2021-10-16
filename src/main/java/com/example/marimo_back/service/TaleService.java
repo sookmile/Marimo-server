@@ -32,6 +32,9 @@ public class TaleService {
 
     public String saveTaleFeedback(TaleDataRequestDto dto){
 
+        TaleResultDataDto dataDto = TaleResultDataDto.builder().taleName(dto.getTaleName()).lastpage(dto.getLastpage()).userId(dto.getUserId()).build();
+        saveResult(dataDto);
+
         Long userId = dto.getUserId();
         Users user = userRepository.findById(userId);
 

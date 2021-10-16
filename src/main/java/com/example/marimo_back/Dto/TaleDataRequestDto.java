@@ -16,6 +16,8 @@ public class TaleDataRequestDto {
 
     private String rWord;
 
+    private String taleName;
+
 
 
 }

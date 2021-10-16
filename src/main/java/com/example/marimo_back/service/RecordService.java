@@ -130,7 +130,7 @@ public class RecordService {
             }
         });
 
-        String[] taleName = {"호랑이의 생일잔치"};
+        String[] taleName = {"호랑이의 생일 잔치"};
 ////        List<Tale> tales = recordRepository.tales(user, taleName[0]);
 //        int[] taleplaynum = {0};
 ////        taleplaynum[0]=tales.size();
