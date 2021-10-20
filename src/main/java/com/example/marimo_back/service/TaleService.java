@@ -33,7 +33,7 @@ public class TaleService {
     public String saveTaleFeedback(TaleDataRequestDto dto){
 
         TaleResultDataDto dataDto = TaleResultDataDto.builder().taleName(dto.getTaleName()).lastpage(dto.getLastpage()).userId(dto.getUserId()).build();
-        saveResult(dataDto);
+//        saveResult(dataDto);
 
         Long userId = dto.getUserId();
         Users user = userRepository.findById(userId);
@@ -50,8 +50,9 @@ public class TaleService {
                 SuccessWord successWord = SuccessWord.builder().user(user).word(word).num(1).category(Category.TALE).build();
                 taleRepository.saveSuccessWord(successWord);
             } else {
-                SuccessWord existWord = successWordList.get(0);
-                existWord.increaseNum(existWord.getNum());
+//                SuccessWord existWord = successWordList.get(0);
+//                existWord.increaseNum(existWord.getNum());
+                taleRepository.updateSuccessWordCount(userId, Category.TALE, word);
             }
             return "발음을 아주 잘했어요!";
         }

@@ -105,17 +105,12 @@ public class RecordService {
         final int[] count = {0};
         boolean[] get = {false,false,false};//game, tale, explore
         List<SuccessWord> successwords = recordRepository.successWords5(user);
-        List<HashMap> mostSuccessWord = new LinkedList<>();
+
         successwords.forEach(w->{
             HashMap<String, String> tmp =new LinkedHashMap<>();
 
             count[0]++;
-            if(count[0]<5){
-                tmp.put("word",w.getWord());
-                tmp.put("count", String.valueOf(w.getNum()));
-                mostSuccessWord.add(tmp);
-            }
-//            System.out.println(w.getWord()+w.getNum()+w.getCategory());
+
             if(w.getCategory().equals(Category.GAME)&&!get[0]){
                 mostSuccessWordGame.put(w.getWord(),w.getNum());
                 get[0]=true;
@@ -128,6 +123,18 @@ public class RecordService {
                 mostSuccessWordExplore.put(w.getWord(),w.getNum());
                 get[2]=true;
             }
+        });
+
+        List<HashMap> mostSuccessWord = new LinkedList<>();
+        count[0]=0;
+        recordRepository.mostSuccessWords(user).forEach(word->{
+            if(count[0]<4) {
+                HashMap<String, String> tmp = new LinkedHashMap<>();
+                tmp.put("word", word.getWord());
+                tmp.put("count", String.valueOf(word.getNum()));
+                mostSuccessWord.add(tmp);
+            }
+            count[0]++;
         });
 
         String[] taleName = {"호랑이의 생일 잔치"};

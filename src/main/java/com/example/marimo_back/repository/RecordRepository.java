@@ -110,4 +110,10 @@ public class RecordRepository {
                 .getResultList();
     }
 
+    public List<SuccessWord> mostSuccessWords(Users users){
+        return em.createQuery("select s from SuccessWord s where s.user=:users order by s.num desc ", SuccessWord.class)
+                .setParameter("users", users)
+                .getResultList();
+    }
+
 }

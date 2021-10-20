@@ -63,12 +63,26 @@ public class TaleRepository {
                 .setParameter("userid", userid)
                 .getSingleResult();
 
-        System.out.println(lastpage);
+//        System.out.println(lastpage);
         Query query = em.createNativeQuery("update TALE t set t.TALE_PLAYNUM=t.TALE_PLAYNUM+1 ,  t.LASTPAGE=:lastpage where t.USER_ID=:userid and t.TALE_NAME=:tailName and t.TALE_ID=:taleId");
         query.setParameter("userid", userid);
         query.setParameter("taleId",taleid);
         query.setParameter("lastpage", lastpage);
         query.setParameter("tailName", tailName);
+        query.executeUpdate();
+
+    }
+
+    @Transactional
+    public void updateSuccessWordCount(Long userid, Category category, String word){
+        Long wordid = em.createQuery("select max (t.id) from SuccessWord  t where  t.user.id=:userid and t.category=:category and t.word=:word", Long.class)
+                .setParameter("userid", userid)
+                .setParameter("category", category)
+                .setParameter("word", word)
+                .getSingleResult();
+
+        Query query = em.createNativeQuery("update SUCCESS_WORD t set t.SUCCESS_NUM=t.SUCCESS_NUM+1  where t.WORD_ID=:wordid ");
+        query.setParameter("wordid", wordid);
         query.executeUpdate();
 
     }
